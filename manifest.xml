@@ -1,0 +1,12 @@
+<package>
+  <description brief="camera_opencv">
+
+     camera_opencv
+
+  </description>
+  <author>Ri-one</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/camera_opencv</url>
+
+</package>
