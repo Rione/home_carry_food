@@ -1,0 +1,7 @@
+<launch>
+    <group ns="ask_order_robot">
+	<node pkg="ask_order" name="move_operation" type="move.py" required="true" />
+	<!--node pkg="ask_order" name="audio" type="audio.py" required="true" /-->
+	<node pkg="ask_order" name="main" type="main.py" required="true" />
+    </group>
+</launch>

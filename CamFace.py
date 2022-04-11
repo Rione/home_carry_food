@@ -3,14 +3,19 @@
 
 import cv2
 import numpy as np
+import sys
 import rospy
-from std_msgs.msg import Int32
+from camera_opencv.msg import PositionValues
 
 class CamFaceDict():
 
     def __init__(self):
         self.a = 0
-        self.pub = rospy.Publisher('/RLDict', Int32, queue_size=1) #左右の向きを保持する
+        self.pub = rospy.Publisher('/RLDict', PositionValues, queue_size=1) #左右の向きを保持する
+        self.position = PositionValues()
+        self.position.up_down = 0
+        self.position.left_right = 1
+        self.position.far_near = 0
 
     def FaceShow(self, FaceCascade, FaceImg):
     
@@ -91,6 +96,7 @@ class CamFaceDict():
         FaceWHDpos[1] = Wpos #1番目の要素が左右の位置を保持
         FaceWHDpos[2] = Dpos #2番目の要素が遠近の位置を保持
 
+        
         self.pub.publish(Wpos)
 
         return FaceWHDpos

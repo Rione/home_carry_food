@@ -8,5 +8,7 @@
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/camera_opencv</url>
+  <build_depend>message_generation</build_depends>
+  <exec_depend>message_runtime</exec_depend>
 
 </package>
