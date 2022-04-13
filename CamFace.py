@@ -97,7 +97,7 @@ class CamFaceDict():
         FaceWHDpos[2] = Dpos #2番目の要素が遠近の位置を保持
 
         
-        self.pub.publish(Wpos)
+        self.pub.publish(self.position)
 
         return FaceWHDpos
 
@@ -132,7 +132,7 @@ if __name__ == '__main__':
 
             FacePos = np.zeros(3)
 
-            FacePos = CMSD.FaceShow("/home/ri-one/catkin_ws/src/mypkg/scripts/haarcascade_frontalface_alt.xml", frame)
+            FacePos = CMSD.FaceShow("/home/ri-one/catkin_ws/src/camera_opencv/haarcascade_frontalface_alt.xml", frame)
             #FacePos = CMSD.FaceShow("/home/rione/Rione/catkin_ws/src/spr-16TEST/haarcascade_frontalface_alt.xml", frame)
             print("上下は" + str(FacePos[0]) + "左右は" + str(FacePos[1]) + "遠近は" + str(FacePos[2]))
 
