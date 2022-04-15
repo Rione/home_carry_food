@@ -18,8 +18,13 @@ class Movement():
 
     def move(self):
         target_time1 = self.move_on / 10
+<<<<<<< HEAD
         #target_time2 = self.theta / 10
         target_time = target_time1 / 2 #(target_time1 + target_time2) / 2
+=======
+        target_time2 = 1 / 10
+        target_time = (target_time1 + target_time2) / 2
+>>>>>>> 419377ae31cd9b458863250a254d00206742eb82
 
         t = Twist()
         t.linear.x = (-1) * self.move_on * 0.2
