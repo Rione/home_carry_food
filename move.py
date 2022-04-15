@@ -18,7 +18,7 @@ class Movement():
 
     def move(self):
         target_time1 = self.move_on / 10
-        target_time2 = self.theta / 10
+        target_time2 = 1 / 10
         target_time = (target_time1 + target_time2) / 2
 
         t = Twist()
