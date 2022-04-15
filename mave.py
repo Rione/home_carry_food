@@ -17,13 +17,13 @@ class Movement():
         self.theta = 0     #rotate_theta
 
     def move(self):
-        target_time1 = self.move_on / 10
-        #target_time2 = self.theta / 10
-        target_time = target_time1 / 2 #(target_time1 + target_time2) / 2
+        #target_time1 = self.move_on / 10
+        target_time2 = 1 / 10
+        target_time = target_time2 / 2 #(target_time1 + target_time2) / 2
 
         t = Twist()
-        t.linear.x = (-1) * self.move_on * 0.2
-        t.angular.z = 0 #self.theta * 20 * 3.14 / 180
+        t.linear.x = 0 #(-1) * self.move_on * 0.2
+        t.angular.z = self.theta * 20 * 3.14 / 180
 
         start_time = time.time()
         end_time = time.time()
@@ -36,19 +36,19 @@ class Movement():
             rate.sleep()
 
     def sub(self, message):
-        """if message.left_right == 0:
+        if message.left_right == 0:
             self.theta = -1
         elif message.left_right == 2:
             self.theta = 1
         else:
-            self.theta = 0"""
+            self.theta = 0
 
-        if message.far_near == 0:
+        """if message.far_near == 0:
             self.move_on = 0.5
         elif message.far_near == 1:
             self.move_on = 0.5
         else:
-            self.move_on = 0
+            self.move_on = 0"""
         
         self.move()
 

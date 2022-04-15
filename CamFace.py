@@ -51,15 +51,15 @@ class CamFaceDict():
             #print("顔は (" + str(x) + "," + str(y) + ") と " + "(" + str(x+w) + "," + str(y+h) + ") にある。")
 
             #顔が左右のいずれに映るか
-            if x + w / 2 < width * 1 / 3:
+            if x + w / 2 < width * 2 / 5:
                 #print("顔が右にあるが反転し左に映る。")
                 Wpos = 2
 
-            elif x + w / 2 < width * 2 / 3 and x + w / 2 >= width * 1 / 3:
+            elif x + w / 2 < width * 3 / 5 and x + w / 2 >= width * 2 / 5:
                 #print("顔が左右中央にある。")
                 Wpos = 1
 
-            elif x + w / 2 < width * 3 / 3:
+            elif x + w / 2 < width * 5 / 5:
                 #print("顔が左にあるが反転し右に映る。")
                 Wpos = 0
             
