@@ -16,36 +16,19 @@ class Movement():
         self.move_on = 0   #moveOn_distance
         self.theta = 0     #rotate_theta
 
-    def move_go(self):
-        speed = 0.1
-        target_time = self.move_on / 10
+    def move(self):
+        target_time1 = self.move_on / 10
+        target_time2 = self.theta / 10
+        target_time = (target_time1 + target_time2) / 2
 
         t = Twist()
-        t.linear.x = (-1) * self.move_on * speed
-        t.angular.z = 0
+        t.linear.x = (-1) * self.move_on * 0.2
+        t.angular.z = self.theta * 20 * 3.14 / 180
 
         start_time = time.time()
         end_time = time.time()
 
         rate = rospy.Rate(50)
-
-        while end_time - start_time <= target_time:
-            self.pub.publish(t)
-            end_time = time.time()
-            rate.sleep()
-
-    def move_turn(self):
-        speed = 20
-        target_time = self.theta / speed
-
-        t = Twist()
-        t.linear.x = 0
-        t.angular.z = self.theta*speed*3.14/180
-
-        start_time = time.time()
-        end_time = time.time()
-
-        rate = rospy.Rate(10)
 
         while end_time - start_time <= target_time:
             self.pub.publish(t)
@@ -59,18 +42,15 @@ class Movement():
             self.theta = 1
         else:
             self.theta = 0
-        print("me " + str(message.left_right))
-        print("tu " + str(self.theta))
-        self.move_turn()
 
         if message.far_near == 0:
-            self.move_on = 2
+            self.move_on = 0.5
         elif message.far_near == 1:
-            self.move_on = 1
+            self.move_on = 0.5
         else:
             self.move_on = 0
-        print("go " + str(self.move_on))
-        self.move_go()
+        
+        self.move()
 
 if __name__ == '__main__':
     rospy.init_node('move_operation')
