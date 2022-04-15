@@ -1,6 +1,6 @@
 <launch>
-    <group ns="came_cv">
-	<node pkg="camera_opencv" name="move_operation" type="move.py" required="true" />
+    <group ns="camera">
 	<node pkg="camera_opencv" name="Camera" type="CamFace.py" required="true" />
+	<node pkg="camera_opencv" name="move_operation" type="move.py" required="true" />
    </group>
 </launch>

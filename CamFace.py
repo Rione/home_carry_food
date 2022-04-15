@@ -3,7 +3,6 @@
 
 import cv2
 import numpy as np
-import sys
 import rospy
 from camera_opencv.msg import PositionValues
 
@@ -15,7 +14,7 @@ class CamFaceDict():
         self.position = PositionValues()
         self.position.up_down = 0
         self.position.left_right = 1
-        self.position.far_near = 0
+        self.position.far_near = 2
 
     def FaceShow(self, FaceCascade, FaceImg):
     
@@ -96,7 +95,10 @@ class CamFaceDict():
         FaceWHDpos[1] = Wpos #1番目の要素が左右の位置を保持
         FaceWHDpos[2] = Dpos #2番目の要素が遠近の位置を保持
 
-        
+        self.position.up_down = FaceWHDpos[0]
+        self.position.left_right = FaceWHDpos[1]
+        self.position.far_near = FaceWHDpos[2]
+
         self.pub.publish(self.position)
 
         return FaceWHDpos
