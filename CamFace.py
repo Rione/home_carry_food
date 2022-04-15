@@ -21,7 +21,7 @@ class CamFaceDict():
         #capture = cv2.VideoCapture(0)
         Wpos = 1 #0:左、1:中央、2:右
         Hpos = 0 #0:上、1:中央、2:右
-        Dpos = 0 #0:遠い、1:中央、2:近い
+        Dpos = 2 #0:遠い、1:中央、2:近い
         FaceWHDpos = np.zeros(3)
 
         # カスケード分類器のxmlファイルを取得する。
@@ -51,15 +51,15 @@ class CamFaceDict():
             #print("顔は (" + str(x) + "," + str(y) + ") と " + "(" + str(x+w) + "," + str(y+h) + ") にある。")
 
             #顔が左右のいずれに映るか
-            if x + w / 2 < width * 2 / 5:
+            if x + w / 2 < width * 1 / 3:
                 #print("顔が右にあるが反転し左に映る。")
                 Wpos = 2
 
-            elif x + w / 2 < width * 3 / 5 and x + w / 2 >= width * 2 / 5:
+            elif x + w / 2 < width * 2 / 3 and x + w / 2 >= width * 1 / 3:
                 #print("顔が左右中央にある。")
                 Wpos = 1
 
-            elif x + w / 2 < width * 5 / 5:
+            elif x + w / 2 < width * 3 / 3:
                 #print("顔が左にあるが反転し右に映る。")
                 Wpos = 0
             
