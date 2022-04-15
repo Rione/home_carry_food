@@ -17,7 +17,7 @@ class Movement():
         self.theta = 0     #rotate_theta
 
     def move(self):
-        target_time1 = self.move_on / 10
+        target_time1 = 0.5 / 10
         target_time2 = 1 / 10
         target_time = (target_time1 + target_time2) / 2
 
@@ -44,9 +44,11 @@ class Movement():
             self.theta = 0
 
         if message.far_near == 0:
-            self.move_on = 0.5
+            self.move_on = 1
         elif message.far_near == 1:
             self.move_on = 0.5
+        elif message.far_near == 3:
+            self.move_on = -0.5
         else:
             self.move_on = 0
         

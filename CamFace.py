@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 import rospy
 from camera_opencv.msg import PositionValues
+import time
 
 class CamFaceDict():
 
@@ -15,6 +16,9 @@ class CamFaceDict():
         self.position.up_down = 0
         self.position.left_right = 1
         self.position.far_near = 2
+        self.change_value = [1, 0, 2]
+        self.change_time_1 = time.time()
+        self.change_time_2 = time.time()
 
     def FaceShow(self, FaceCascade, FaceImg):
     
@@ -22,6 +26,10 @@ class CamFaceDict():
         Wpos = 1 #0:左、1:中央、2:右
         Hpos = 0 #0:上、1:中央、2:右
         Dpos = 2 #0:遠い、1:中央、2:近い
+        self.change_value[0] = Wpos
+        self.change_value[1] = Hpos
+        self.change_value[2] = Dpos
+
         FaceWHDpos = np.zeros(3)
 
         # カスケード分類器のxmlファイルを取得する。
@@ -80,12 +88,18 @@ class CamFaceDict():
                 Hpos = 2
 
             #顔が遠近のいずれに映るか
-            if w < 130 or h < 130:
-                Dpos = 0
+            if w < 80 or h < 80:
+                Dpos = 0 #遠いとき速くしようと思ったけど、料理を運ぶために速度変化は無い方が良いかなと思ったため1と0で速度変化はなし。
 
-            elif (w > 130 and w < 210) or (h > 130 and h < 210):
+            elif (w >= 80 and w < 150) or (h >= 80 and h < 150):
                 Dpos = 1 
         
+            elif (w >= 150 and w < 230) or (h >= 150 and h < 230):
+                Dpos = 2 # 
+
+            elif (w >= 230) or (h >= 230):
+                Dpos = 3
+            
             else:
                 Dpos = 2
 
@@ -94,6 +108,19 @@ class CamFaceDict():
         FaceWHDpos[0] = Hpos #0番目の要素が上下の位置を保持
         FaceWHDpos[1] = Wpos #1番目の要素が左右の位置を保持
         FaceWHDpos[2] = Dpos #2番目の要素が遠近の位置を保持
+
+        #一瞬消える青枠の情報を整備（調整中で汚いコードです）
+        self.change_time_1 = time.time()
+        if (self.change_value[0] != FaceWHDpos[0]) or \
+           (self.change_value[1] != FaceWHDpos[1]) or \
+           (self.change_value[2] != FaceWHDpos[2]):
+            self.change_time_2 = time.time()
+            while (self.change_time_2 - self.change_time_1 <= 0.05):
+                self.change_time_2 = time.time()        
+
+        self.change_value[0] = FaceWHDpos[0]
+        self.change_value[1] = FaceWHDpos[1]
+        self.change_value[2] = FaceWHDpos[2]
 
         self.position.up_down = FaceWHDpos[0]
         self.position.left_right = FaceWHDpos[1]
