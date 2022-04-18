@@ -161,7 +161,7 @@ if __name__ == '__main__':
 
             FacePos = np.zeros(3)
 
-            FacePos = CMSD.FaceShow("haarcascade_frontalface_alt.xml", frame)
+            FacePos = CMSD.FaceShow("/home/ri-one/catkin_ws/src/carry_food/haarcascade_frontalface_alt.xml", frame)
             #FacePos = CMSD.FaceShow("/home/rione/Rione/catkin_ws/src/spr-16TEST/haarcascade_frontalface_alt.xml", frame)
             print("上下は" + str(FacePos[0]) + "左右は" + str(FacePos[1]) + "遠近は" + str(FacePos[2]))
 
