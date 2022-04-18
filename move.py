@@ -29,7 +29,7 @@ class Movement():
         end_time = time.time()
 
         rate = rospy.Rate(50)
-
+        
         while end_time - start_time <= target_time:
             self.pub.publish(t)
             end_time = time.time()
