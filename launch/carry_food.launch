@@ -1,0 +1,6 @@
+<launch>
+    <group ns="food">
+	<node pkg="carry_food" name="Camera" type="CamFace.py" required="true" />
+	<node pkg="carry_food" name="move_operation" type="move.py" required="true" />
+   </group>
+</launch>
