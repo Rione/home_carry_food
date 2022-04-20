@@ -8,7 +8,7 @@ import time
 class Movement():
     def __init__(self):
         self.pub = rospy.Publisher('/mobile_base/commands/velocity', Twist, queue_size = 1)
-        self.sub = rospy.Subscriber('/RLDict', PositionValues, self.sub)
+        self.sub = rospy.Subscriber('/move_stop', PositionValues, self.sub)
         self.camera_data = PositionValues()
         self.camera_data.up_down = 0
         self.camera_data.left_right = 1

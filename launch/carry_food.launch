@@ -1,6 +1,8 @@
 <launch>
     <group ns="food">
+	<node pkg="carry_food" name="audio" type="audio.py" required="true" output="screen" />
 	<node pkg="carry_food" name="Camera" type="CamFace.py" required="true" />
 	<node pkg="carry_food" name="move_operation" type="move.py" required="true" />
-   </group>
+	<node pkg="carry_food" name="main" type="main.py" required="true" />
+    </group>
 </launch>

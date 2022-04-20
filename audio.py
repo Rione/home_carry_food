@@ -6,12 +6,13 @@ from std_msgs.msg import String
 import os
 from pocketsphinx import LiveSpeech
 import sys
-sys.path.append('audio_src/')
+sys.dont_write_bytecode = True
+sys.path.append('/home/ri-one/catkin_ws/src/carry_food/audio_src/')
 from module import module_pico
 from module import module_beep
 
 oa_dict = {}  #order and answer
-with open('audio_src/carry_food.txt', 'r') as f:
+with open('/home/ri-one/catkin_ws/src/carry_food/audio_src/carry_food.txt', 'r') as f:
     oa_list = f.readlines()
     #print("----------order list-----------")
     for oa in oa_list:
@@ -26,9 +27,11 @@ dic_path = file_path.replace(
 gram_path = file_path.replace(
     '/audio.py', '/audio_src/carry_food.gram')
 
+live_speech = LiveSpeech(lm=False, dic=dic_path, jsgf=gram_path, kws_threshold=1e-20)
+
 class OandA():
     def __init__(self):
-        self.pub = rospy.Publisher('/audio_fin', String, queue_size = 1)
+        self.pub = rospy.Publisher('/audio_finish', String, queue_size = 1)
         self.sub = rospy.Subscriber('/audio_start', String, self.cb)
 
     def recognition(self):
@@ -45,7 +48,6 @@ class OandA():
 
         global live_speech
         print('[*] START RECOGNITION')
-        self.setup_live_speech(False, dic_path, gram_path, 1e-20)
 
         module_beep.beep()
         for phrase in live_speech:
@@ -59,30 +61,6 @@ class OandA():
             else:
                 #print(".*._noise_.*.")
                 pass
-
-
-    # setup livespeech
-    def setup_live_speech(self, TF, dict_path, jsgf_path, kws_threshold):
-
-        ###############
-        #
-        # use this module to set live espeech parameter
-        #
-        # param >> lm: False >> means useing own dict and gram
-        # param >> dict_path: ~.dict file's path
-        # param >> jsgf_path: ~.gram file's path
-        # param >> kws_threshold: mean's confidence (1e-)
-        #
-        # return >> None
-        #
-        ###############
-
-        global live_speech
-        live_speech = LiveSpeech(lm=TF,
-                                dic=dict_path,
-                                jsgf=jsgf_path,
-                                kws_threshold=kws_threshold
-                                )
 
     def read_noise_word(self, gram_path):
 
@@ -114,15 +92,16 @@ class OandA():
             print("recognition: ", order)
             if (message == "carry" and order == "carry food") or \
                 (message == "stand-by" and order == "i received the food"):
-                self.pub("ok")
+                self.pub.publish("ok")
                 break
             print("----------------------------------")
         
         module_pico.speak(oa_dict[order])
-        print("----------------------------------")
+        print("----------listening fin----------")
 
-    def cb(message):
+    def cb(self, message):
         if message.data == "carry" or message.data == "stand-by":
+            self.pub.publish("ryo")
             self.main(message.data)
 
 if __name__ == '__main__':
@@ -130,4 +109,7 @@ if __name__ == '__main__':
     OrderAndAnswer = OandA()
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
-        rate.sleep()
+        try:
+            rate.sleep()
+        except:
+            sys.exit()

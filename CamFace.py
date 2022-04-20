@@ -25,7 +25,7 @@ class CamFaceDict():
         #capture = cv2.VideoCapture(0)
         Wpos = 1 #0:左、1:中央、2:右
         Hpos = 0 #0:上、1:中央、2:右
-        Dpos = 2 #0:遠い、1:中央、2:近い
+        Dpos = 4 #0:遠い、1:もうちょい、2:良い、3:近すぎる、4:検出なし
         self.change_value[0] = Wpos
         self.change_value[1] = Hpos
         self.change_value[2] = Dpos
