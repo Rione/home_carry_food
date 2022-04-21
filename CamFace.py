@@ -88,20 +88,20 @@ class CamFaceDict():
                 Hpos = 2
 
             #顔が遠近のいずれに映るか
-            if w < 80 or h < 80:
+            if (w < 80) or (h < 80):
                 Dpos = 0 #遠いとき速くしようと思ったけど、料理を運ぶために速度変化は無い方が良いかなと思ったため1と0で速度変化はなし。
 
             elif (w >= 80 and w < 150) or (h >= 80 and h < 150):
                 Dpos = 1 
         
             elif (w >= 150 and w < 230) or (h >= 150 and h < 230):
-                Dpos = 2 # 
+                Dpos = 2
 
             elif (w >= 230) or (h >= 230):
                 Dpos = 3
             
             else:
-                Dpos = 2
+                Dpos = 4
 
             #print("幅は、" + str(w) + "で 高さは" + str(h) + "です。")
 

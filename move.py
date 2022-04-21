@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
+from std_msgs.msg import String
 from geometry_msgs.msg import Twist
 from camera_opencv.msg import PositionValues
 import time
@@ -8,6 +9,7 @@ import time
 class Movement():
     def __init__(self):
         self.pub = rospy.Publisher('/mobile_base/commands/velocity', Twist, queue_size = 1)
+        self.pub_main = rospy.Publisher('/turn_finish', String, queue_size = 1)
         self.sub = rospy.Subscriber('/move_stop', PositionValues, self.sub)
         self.camera_data = PositionValues()
         self.camera_data.up_down = 0
@@ -34,8 +36,33 @@ class Movement():
             self.pub.publish(t)
             end_time = time.time()
             rate.sleep()
+        
+    def turn_180(self):
+        theta = 180
+        speed = 40
+        target_time = theta * 1.38 / speed
+
+        t = Twist()
+        t.linear.x = 0
+        t.angular.z = (-1) * speed * 3.14 / 180
+
+        start_time = time.time()
+        end_time = time.time()
+
+        rate = rospy.Rate(50)
+
+        while end_time - start_time <= target_time:
+            self.pub.publish(t)
+            end_time = time.time()
+            rate.sleep()
+        
+        self.pub_main.publish("finish")
 
     def sub(self, message):
+        if message.up_down == 180:
+            self.turn_180()
+            return
+        
         if message.left_right == 0:
             self.theta = -1
         elif message.left_right == 2:
@@ -44,7 +71,7 @@ class Movement():
             self.theta = 0
 
         if message.far_near == 0:
-            self.move_on = 1
+            self.move_on = 0.5
         elif message.far_near == 1:
             self.move_on = 0.5
         elif message.far_near == 3:
