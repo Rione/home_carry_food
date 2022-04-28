@@ -10,20 +10,19 @@ import time
 class CarryFood():
     def __init__(self):
         #movement
-        self.move_pub = rospy.Publisher('/move_stop', PositionValues, queue_size = 1)
-        self.camera_sub = rospy.Subscriber('/RLDict', PositionValues, self.control_movement)
-        self.stop = 0
-        self.move_permission = 0
-        self.move_turn = 0
+        self.move_pub = rospy.Publisher('/move_stop', PositionValues, queue_size = 1)  #to /move
+        self.camera_sub = rospy.Subscriber('/RLDict', PositionValues, self.control_movement)  #from /Camera
+        self.stop = 0   #move stop counter
+        self.move_permission = 0  #move permission 0 = False, 1 = True
+        self.move_turn = 0  #turn 180 angul
 
         #audio
-        self.audio_pub = rospy.Publisher('/audio_start', String, queue_size = 1, latch = True)
-        self.audio_sub = rospy.Subscriber('/audio_finish', String, self.control_audio)
-        self.audio_finish = 0
-
+        self.audio_pub = rospy.Publisher('/audio_start', String, queue_size = 1, latch = True)  #to /audio
+        self.audio_sub = rospy.Subscriber('/audio_finish', String, self.control_audio)  #from /audio
+        self.audio_finish = 0  #0 = False, 1 = True
     
     def control_audio(self, message):
-        if message.data == "ryo":
+        if message.data == "ryo":    #audio accept
             self.audio_pub.publish("wait")
         if message.data == "ok":
             self.audio_finish = 1
@@ -33,7 +32,7 @@ class CarryFood():
         if self.move_permission == 0:
             return 0
         
-        if self.move_turn == 1:
+        if self.move_turn == 1:   #turn 180 angul
             message.up_down = 180
             self.move_pub.publish(message)
             self.move_turn = 0
@@ -41,12 +40,12 @@ class CarryFood():
             return 0
 
         self.move_pub.publish(message)
-        if message.far_near == 2:
+        if message.far_near == 2:   #good distance
             self.stop += 1
         else:
             self.stop = 0
         
-        if self.stop == 10 * 2:  #3 minutes
+        if self.stop == 10 * 2:  #keeped 2 minutes
             self.move_permission = 0
         
         return 0

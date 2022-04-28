@@ -2,4 +2,4 @@
 grammar carry_food;
 public <rule> = <command> | <noise>;
 <command> = carry food | i received the food;
-<noise> = o | ki | ya | x | ma | r | no | a | tu | wu | do you like | ko | na | hi | le | wa | h | ru | ra | ku | g | n | mo | ne | ke | nu | q | hu | l | ro | te | ti | f | v | me | z | se | so | wo | w | li | lo | ta | to | sa | p | ha | la | ho | ka | mu | yo | do you | he | ni | su | k | t | re | lu | j | s;
+<noise> = la | t | wo | re | ti | h | li | k | ko | j | no | su | i | hi | ku | f | ta | q | so | a | x | ke | lu | nu | ro | l | v | ka | to | o | i received the | z | me | p | ne | wu | ra | sa | yo | i received | te | ki | w | g | ha | ho | hu | ni | mo | he | ma | mu | na | s | wa | carry | se | ya | n | lo | ru | r | le | tu;
