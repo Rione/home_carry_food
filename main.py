@@ -3,8 +3,7 @@
 import rospy
 import sys
 from std_msgs.msg import String
-from geometry_msgs.msg import Twist
-from camera_opencv.msg import PositionValues
+from carry_food.msg import PositionValues
 import time
 
 class CarryFood():
@@ -45,7 +44,7 @@ class CarryFood():
         else:
             self.stop = 0
         
-        if self.stop == 10 * 2:  #keeped 2 minutes
+        if self.stop == 10 *2:  #keeped 2 minutes
             self.move_permission = 0
         
         return 0
@@ -104,6 +103,3 @@ if __name__ == '__main__':
     rospy.init_node("main")
     carry_food = CarryFood()
     carry_food.main()
-    rate = rospy.Rate(10)
-    while not rospy.is_shutdown():
-        rate.sleep()

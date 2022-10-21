@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import sys
 import cv2
 import numpy as np
 import rospy
-from camera_opencv.msg import PositionValues
+from carry_food.msg import PositionValues
 import time
 
 class CamFaceDict():
@@ -139,6 +140,8 @@ class CamFaceDict():
 
 
 if __name__ == '__main__':
+
+    print(sys.version)
 
     #ノードの初期化
     rospy.init_node("Camera") #ノードの初期化
